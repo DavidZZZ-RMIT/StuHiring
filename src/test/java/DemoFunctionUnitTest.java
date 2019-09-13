@@ -13,7 +13,7 @@ public class DemoFunctionUnitTest {
 		User u1 = new Student();
 		assertTrue(u1.login("davidzzz", "123456"));
 		//fail("Not yet implemented");
-		
+
 		User u2 = new Employer();
 		assertTrue(u1.login("adamzzz", "123456"));
 	}

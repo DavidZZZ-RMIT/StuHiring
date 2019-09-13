@@ -22,8 +22,10 @@ public abstract class User {
 		return true;
 	}
 	
-	public void updatePersonalProfile(String lastName,String firstName) {
+	public boolean updatePersonalProfile(String lastName,String firstName) {
 		this.lastName = lastName;
 		this.firstName = firstName;
+		
+		return true;
 	}
 }
