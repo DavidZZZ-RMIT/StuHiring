@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.json.JSONObject;
+import net.sf.json.util.JSONStringer;
 import rmit.sef.assignment1.web.util.JadeTemplateEngine;
 
 public class Unicorn {
@@ -90,7 +91,11 @@ public class Unicorn {
 			return new ModelAndView(model, "home"); // located in resources/templates directory
 		}, new JadeTemplateEngine());
 
-		get("/json", (request, response) -> {
+		post("/json","application/json", (request, response) -> {
+			
+			JSONObject reqJson = JSONObject.fromObject(request.body());
+			System.out.print(reqJson);
+			
 			response.type("application/json");
 			JSONObject jsonObj = new JSONObject();
 			jsonObj.put("josn", "testData");
