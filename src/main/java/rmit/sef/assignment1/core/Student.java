@@ -1,11 +1,95 @@
 package rmit.sef.assignment1.core;
 
+import org.dizitart.no2.Document;
+import org.dizitart.no2.mapper.NitriteMapper;
+
 public class Student extends User {
+
 	private String school;
 	private String major;
-	private String gender;
+	private Gender gender;
 	private int graduateYear;
 	private String description;
+	private String employmentRecords;
+	private String references;
+	private String qualifications;
+	private String licenses;
+	private Availabilities availabilities;
+
+	@Override
+	public Document write(NitriteMapper mapper) {
+		Document document = super.write(mapper);
+		document.put("school", school);
+		document.put("major", major);
+		document.put("description", description);
+		document.put("gender", gender);
+		document.put("graduateYear", graduateYear);
+		document.put("employmentRecords", employmentRecords);
+		document.put("references", references);
+		document.put("qualifications", qualifications);
+		document.put("licenses", licenses);
+		document.put("availabilities", availabilities);
+		return document;
+	}
+
+	@Override
+	public void read(NitriteMapper mapper, Document document) {
+		school = (String) document.get("school");
+		major = (String) document.get("major");
+		description = (String) document.get("description");
+		employmentRecords = (String) document.get("employmentRecords");
+		references = (String) document.get("references");
+		qualifications = (String) document.get("qualifications");
+		licenses = (String) document.get("licenses");
+		availabilities = Availabilities.fromString((String) document.get("availabilities"));
+		gender = Gender.getGender((String) document.get("gender"));
+		graduateYear = (int) document.get("graduateYear");
+	}
+
+	public Student(String userName, String pwd, String email, String fristName, String lastName) {
+		super(userName, pwd, email, fristName, lastName, UserType.Student);
+		availabilities = new Availabilities();
+	}
+
+	public String getReferences() {
+		return references;
+	}
+
+	public void setReferences(String references) {
+		this.references = references;
+	}
+
+	public String getQualifications() {
+		return qualifications;
+	}
+
+	public void setQualifications(String qualifications) {
+		this.qualifications = qualifications;
+	}
+
+	public String getLicenses() {
+		return licenses;
+	}
+
+	public void setLicenses(String licenses) {
+		this.licenses = licenses;
+	}
+
+	public Availabilities getAvailabilities() {
+		return availabilities;
+	}
+
+	public void setAvailabilities(Availabilities availabilities) {
+		this.availabilities = availabilities;
+	}
+
+	public String getEmploymentRecords() {
+		return employmentRecords;
+	}
+
+	public void setEmploymentRecords(String employmentRecords) {
+		this.employmentRecords = employmentRecords;
+	}
 
 	public String getSchool() {
 		return school;
@@ -23,11 +107,11 @@ public class Student extends User {
 		this.major = major;
 	}
 
-	public String getGender() {
+	public Gender getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
 
@@ -46,5 +130,4 @@ public class Student extends User {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 }

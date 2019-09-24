@@ -8,10 +8,13 @@ public class MainClass {
     public static void main(String[] args) {
     	staticFileLocation("/public");
 
+    	//show home page
     	get("/", (request, response) -> {
             Map<String, String> model = new HashMap<>();
-            model.put("message", "Hello Jade!");
+            //model.put("message", "Hello Jade!");
             return new ModelAndView(model, "home"); // located in resources/templates directory
         }, new JadeTemplateEngine());
+    	
+    	Unicorn.getInstance().initWebService();
     }
 }
