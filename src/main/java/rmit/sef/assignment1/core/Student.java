@@ -3,6 +3,8 @@ package rmit.sef.assignment1.core;
 import org.dizitart.no2.Document;
 import org.dizitart.no2.mapper.NitriteMapper;
 
+import net.sf.json.JSONObject;
+
 public class Student extends User {
 
 	private String school;
@@ -17,6 +19,20 @@ public class Student extends User {
 	private Availabilities availabilities;
 	private ApplicantStatus status;
 
+	public JSONObject toJson() {
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("school", this.school);
+		jsonObj.put("major", this.major);
+		jsonObj.put("gender", this.gender);
+		jsonObj.put("graduateYear", this.graduateYear);
+		jsonObj.put("qualifications", this.qualifications);
+		jsonObj.put("licenses", this.licenses);
+		jsonObj.put("availabilities", this.availabilities);
+		jsonObj.put("description", this.description);
+		jsonObj.put("status", this.availabilities);
+		return jsonObj;
+	}
+	
 	@Override
 	public Document write(NitriteMapper mapper) {
 		Document document = super.write(mapper);
@@ -29,7 +45,7 @@ public class Student extends User {
 		document.put("references", references);
 		document.put("qualifications", qualifications);
 		document.put("licenses", licenses);
-		document.put("availabilities", availabilities);
+		document.put("availabilities", availabilities.toCodeString());
 		document.put("status", status);
 		return document;
 	}
@@ -43,7 +59,7 @@ public class Student extends User {
 		references = (String) document.get("references");
 		qualifications = (String) document.get("qualifications");
 		licenses = (String) document.get("licenses");
-		availabilities = Availabilities.fromString((String) document.get("availabilities"));
+		availabilities = Availabilities.fromCodeString((String) document.get("availabilities"));
 		status = ApplicantStatus.fromString((String) document.get("status"));
 		gender = Gender.getGender((String) document.get("gender"));
 		graduateYear = (int) document.get("graduateYear");
@@ -141,4 +157,9 @@ public class Student extends User {
 	public void setStatus(ApplicantStatus status) {
 		this.status = status;
 	}
+	
+	public String getFullName() {
+		return this.getFirstName()+" "+this.getLastName();
+	}
+
 }

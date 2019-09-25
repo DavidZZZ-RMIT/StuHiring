@@ -1,8 +1,11 @@
 package rmit.sef.assignment1.collection;
 
+import java.util.List;
+
 import org.dizitart.no2.objects.ObjectRepository;
 import org.dizitart.no2.objects.filters.ObjectFilters;
 
+import rmit.sef.assignment1.core.Job;
 import rmit.sef.assignment1.core.Student;
 import rmit.sef.assignment1.db.DataKeeper;
 
@@ -42,5 +45,10 @@ public class StudentCollection {
 
 	public void removeStudent(Student user) {
 		repository.remove(user);
+	}
+
+	public List<Student> findApplicants(String keywords) {
+		return repository.find(ObjectFilters.or(ObjectFilters.text("description", keywords),
+				ObjectFilters.text("school", keywords), ObjectFilters.text("major", keywords))).toList();
 	}
 }

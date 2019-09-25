@@ -8,6 +8,8 @@ import org.dizitart.no2.Document;
 import org.dizitart.no2.mapper.Mappable;
 import org.dizitart.no2.mapper.NitriteMapper;
 
+import net.sf.json.JSONObject;
+
 public class Job implements Mappable {
 	private String employer;
 	private String title;
@@ -56,7 +58,7 @@ public class Job implements Mappable {
 	public void setPublicDate(LocalDate publicDate) {
 		this.publicDate = publicDate;
 	}
-	
+
 	public String getEmployer() {
 		return employer;
 	}
@@ -74,7 +76,7 @@ public class Job implements Mappable {
 		document.put("description", description);
 		document.put("dueDate", util.FORMATTER.format(dueDate));
 		document.put("publicDate", util.FORMATTER.format(publicDate));
-		document.put("availabilities", availabilities);
+		document.put("availabilities", availabilities.toCodeString());
 		return document;
 	}
 
@@ -86,6 +88,15 @@ public class Job implements Mappable {
 		description = (String) document.get("description");
 		dueDate = LocalDate.parse((String) document.get("dueDate"), util.FORMATTER);
 		publicDate = LocalDate.parse((String) document.get("publicDate"), util.FORMATTER);
-		availabilities = Availabilities.fromString((String) document.get("availabilities"));
+		availabilities = Availabilities.fromCodeString((String) document.get("availabilities"));
+	}
+
+	public JSONObject toJson() {
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("title", this.title);
+		jsonObj.put("description", this.description);
+		jsonObj.put("dueDate", this.dueDate);
+		jsonObj.put("availabilities", this.availabilities);
+		return jsonObj;
 	}
 }

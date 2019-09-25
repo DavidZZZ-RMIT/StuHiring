@@ -11,17 +11,23 @@ public class Availabilities {
 		availabilities.put(Availability.PartTime, false);
 	}
 
+	public String toCodeString() {
+		return (availabilities.get(Availability.FullTime) ? "1" : "0")
+				+ (availabilities.get(Availability.Internship) ? "1" : "0")
+				+ (availabilities.get(Availability.PartTime) ? "1" : "0");
+	}
+	
 	public String toString() {
-		return (availabilities.get(Availability.FullTime) ? "0" : "1")
-				+ (availabilities.get(Availability.Internship) ? "0" : "1")
-				+ (availabilities.get(Availability.PartTime) ? "0" : "1");
+		return (availabilities.get(Availability.FullTime) ? "FullTime;" : "")
+				+ (availabilities.get(Availability.Internship) ? "Internship;" : "")
+				+ (availabilities.get(Availability.PartTime) ? "PartTime" : "");
 	}
 
 	public void setAvailability(Availability a, boolean b) {
 		availabilities.put(a, b);
 	}
 
-	public static Availabilities fromString(String str) {
+	public static Availabilities fromCodeString(String str) {
 		Availabilities a = new Availabilities();
 		if (str.charAt(0) == '1')
 			a.setAvailability(Availability.FullTime, true);

@@ -1,11 +1,14 @@
 import rmit.sef.assignment1.collection.*;
+import rmit.sef.assignment1.core.*;
+
 import static spark.Spark.*;
 import spark.ModelAndView;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.json.JSONObject;
-import net.sf.json.util.JSONStringer;
 import rmit.sef.assignment1.web.util.JadeTemplateEngine;
 
 public class Unicorn {
@@ -36,52 +39,84 @@ public class Unicorn {
 		mStuffContrl = new StuffCollection();
 	}
 
-	public boolean creatStuff() {
+	private boolean creatStuff() {
 		return false;
 	}
 
-	public boolean registEmployer() {
+	private boolean registEmployer() {
 		return false;
 	}
 
-	public boolean registStudent() {
+	private boolean registStudent() {
 		return false;
 	}
 
-	public boolean removeEmployer() {
+	private boolean removeEmployer() {
 		return false;
 	}
 
-	public boolean removeStudent() {
+	private boolean removeStudent() {
 		return false;
 	}
 
-	public boolean updateEmployerProfile() {
+	private boolean updateEmployerProfile() {
 		return false;
 	}
 
-	public boolean updateStudentProfile() {
+	private boolean updateStudentProfile() {
 		return false;
 	}
 
-	public boolean loginAsStudent() {
+	private boolean loginAsStudent() {
 		return false;
 	}
 
-	public boolean loginAsStuff() {
+	private boolean loginAsStuff() {
 		return false;
 	}
 
-	public boolean loginAsEmployer() {
+	private boolean loginAsEmployer() {
 		return false;
 	}
 
-	public boolean postJob() {
+	private boolean postJob() {
 		return false;
 	}
 
-	public boolean postJobApplication() {
+	private boolean postJobApplication() {
 		return false;
+	}
+
+	private static JSONObject convertJobList(List<Job> list) {
+		JSONObject jsonObj = new JSONObject();
+		Iterator<Job> i = list.iterator();
+		while (i.hasNext()) {
+			Job j = i.next();
+			jsonObj.put(j.getTitle(), j.toJson());
+		}
+		return jsonObj;
+	}
+
+	private static JSONObject convertStudentList(List<Student> list) {
+		JSONObject jsonObj = new JSONObject();
+		Iterator<Student> i = list.iterator();
+		while (i.hasNext()) {
+			Student j = i.next();
+			jsonObj.put(j.getFullName(), j.toJson());
+		}
+		return jsonObj;
+	}
+
+	private List<Job> findJobs(String keywords) {
+		return mJobContrl.findJobs(keywords);
+	}
+	
+//	private List<Job> findJobsByFilter(JSONObject Json) {
+//		return mJobContrl.findJobsByFilter(Json);
+//	}
+
+	private List<Student> findApplicants(String keywords) {
+		return mStudentContrl.findApplicants(keywords);
 	}
 
 	public static void initWebService() {
@@ -91,16 +126,32 @@ public class Unicorn {
 			return new ModelAndView(model, "home"); // located in resources/templates directory
 		}, new JadeTemplateEngine());
 
-		post("/json","application/json", (request, response) -> {
-			
+		post("/json", "application/json", (request, response) -> {
+
 			JSONObject reqJson = JSONObject.fromObject(request.body());
 			System.out.print(reqJson);
-			
+
 			response.type("application/json");
 			JSONObject jsonObj = new JSONObject();
 			jsonObj.put("josn", "testData");
-			
+
 			return jsonObj.toString();
+		});
+
+		post("/findJobs", "application/json", (request, response) -> {
+			response.type("application/json");
+			JSONObject json = JSONObject.fromObject(request.body());
+			if (json.has("keywords"))
+				return convertJobList(Unicorn.getInstance().findJobs((String) json.get("keywords"))).toString();
+//			else if (json.has("filter"))
+//				return convertJobList(Unicorn.getInstance().findJobs((String) json.get("keywords"))).toString();
+			return null;
+		});
+
+		post("/findApplicants", "application/json", (request, response) -> {
+			response.type("application/json");
+			return convertStudentList(Unicorn.getInstance()
+					.findApplicants((String) JSONObject.fromObject(request.body()).get("keywords"))).toString();
 		});
 	}
 }
