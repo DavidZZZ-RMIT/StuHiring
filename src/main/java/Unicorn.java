@@ -39,6 +39,22 @@ public class Unicorn {
 		mStuffContrl = new StuffCollection();
 	}
 
+	private boolean isStudentExist(String email) {
+		return mStudentContrl.isStudentExist(email);
+	}
+
+	private boolean loginAsStudent(String email, String pwd) {
+		return mStudentContrl.getStudent(email).checkPwd(pwd);
+	}
+
+	private boolean isEmployerExist(String email) {
+		return mEmployerContrl.isEmployerExist(email);
+	}
+
+	private boolean loginAsEmployer(String email, String pwd) {
+		return mEmployerContrl.getEmployer(email).checkPwd(pwd);
+	}
+
 	private boolean creatStuff() {
 		return false;
 	}
@@ -110,7 +126,7 @@ public class Unicorn {
 	private List<Job> findJobs(String keywords) {
 		return mJobContrl.findJobs(keywords);
 	}
-	
+
 //	private List<Job> findJobsByFilter(JSONObject Json) {
 //		return mJobContrl.findJobsByFilter(Json);
 //	}
@@ -137,17 +153,114 @@ public class Unicorn {
 			return jsonObj.toString();
 		});
 
+		post("/loginAsStudent", "application/json", (request, response) -> {
+			response.type("application/json");
+
+			JSONObject reqJson = JSONObject.fromObject(request.body());
+			JSONObject responseJson = new JSONObject();
+
+			if (reqJson.has("email") && reqJson.has("pwd")) {
+				if (Unicorn.getInstance().isStudentExist((String) reqJson.get("email"))) {
+					if (Unicorn.getInstance().loginAsStudent((String) reqJson.get("email"),
+							(String) reqJson.get("pwd"))) {
+						request.session(true);
+						responseJson.put("result", "succes");
+						responseJson.put("msg", "weclome");
+						responseJson.put("session", request.session().id());
+						request.session().attribute("User", (String) reqJson.get("email"));
+						request.session().attribute("UserType", UserType.Student);
+					} else {
+						responseJson.put("result", "failed");
+						responseJson.put("msg", "password incorrect");
+					}
+				} else {
+					responseJson.put("result", "failed");
+					responseJson.put("msg", "student account is not exist");
+				}
+			} else {
+				responseJson.put("result", "failed");
+				responseJson.put("msg", "missing email or password");
+			}
+
+			return responseJson.toString();
+		});
+
+		post("/loginAsEmployer", "application/json", (request, response) -> {
+			response.type("application/json");
+
+			JSONObject reqJson = JSONObject.fromObject(request.body());
+			JSONObject responseJson = new JSONObject();
+
+			if (reqJson.has("email") && reqJson.has("pwd")) {
+				if (Unicorn.getInstance().isEmployerExist((String) reqJson.get("email"))) {
+					if (Unicorn.getInstance().loginAsEmployer((String) reqJson.get("email"),
+							(String) reqJson.get("pwd"))) {
+						request.session(true);
+						responseJson.put("result", "succes");
+						responseJson.put("msg", "weclome");
+						responseJson.put("session", request.session().id());
+						request.session().attribute("User", (String) reqJson.get("email"));
+						request.session().attribute("UserType", UserType.Employer);
+					} else {
+						responseJson.put("result", "failed");
+						responseJson.put("msg", "password incorrect");
+					}
+				} else {
+					responseJson.put("result", "failed");
+					responseJson.put("msg", "employer account is not exist");
+				}
+			} else {
+				responseJson.put("result", "failed");
+				responseJson.put("msg", "missing email or password");
+			}
+
+			return responseJson.toString();
+		});
+
+		post("/loginout", "application/json", (request, response) -> {
+			if (request.session() != null) {
+				request.session().removeAttribute("User");
+				request.session().removeAttribute("UserType");
+			}
+			JSONObject responseJson = new JSONObject();
+			responseJson.put("status", "loginout");
+			response.type("application/json");
+			return responseJson.toString();
+		});
+
+		post("/isLogined", "application/json", (request, response) -> {
+			JSONObject responseJson = new JSONObject();
+			if (request.session() != null) {
+				responseJson.put("session", request.session().id());
+				if (!request.session().isNew()) {
+					responseJson.put("email", request.session().attribute("User"));
+					responseJson.put("status", "logined");
+					responseJson.put("UserType", request.session().attribute("UserType"));
+				} else {
+					responseJson.put("email", "unknown");
+				}
+			} else {
+				responseJson.put("status", "not login");
+			}
+
+			response.type("application/json");
+			return responseJson.toString();
+		});
+
 		post("/findJobs", "application/json", (request, response) -> {
+			request.session(true);
 			response.type("application/json");
 			JSONObject json = JSONObject.fromObject(request.body());
 			if (json.has("keywords"))
 				return convertJobList(Unicorn.getInstance().findJobs((String) json.get("keywords"))).toString();
-//			else if (json.has("filter"))
-//				return convertJobList(Unicorn.getInstance().findJobs((String) json.get("keywords"))).toString();
-			return null;
+			// else if (json.has("filter"))
+			// return convertJobList(Unicorn.getInstance().findJobs((String)
+			// json.get("keywords"))).toString();
+			return "{}";
 		});
 
 		post("/findApplicants", "application/json", (request, response) -> {
+			request.session(true);
 			response.type("application/json");
 			return convertStudentList(Unicorn.getInstance()
 					.findApplicants((String) JSONObject.fromObject(request.body()).get("keywords"))).toString();

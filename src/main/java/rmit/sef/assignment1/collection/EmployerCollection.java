@@ -30,8 +30,8 @@ public class EmployerCollection {
 		return repository.find(ObjectFilters.eq("email", email)).size() > 0;
 	}
 	
-	public Employer getEmployer(String emial) {
-		return repository.find(ObjectFilters.eq("email", emial)).firstOrDefault();
+	public Employer getEmployer(String email) {
+		return repository.find(ObjectFilters.eq("email", email)).firstOrDefault();
 	}
 
 	public void updateEmployer(Employer employer) {

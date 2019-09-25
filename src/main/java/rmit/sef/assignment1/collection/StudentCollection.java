@@ -28,7 +28,7 @@ public class StudentCollection {
 		return repository.find(ObjectFilters.eq("email", user.getEmail())).size() > 0;
 	}
 
-	public boolean isUserExist(String email) {
+	public boolean isStudentExist(String email) {
 		return repository.find(ObjectFilters.eq("email", email)).size() > 0;
 	}
 

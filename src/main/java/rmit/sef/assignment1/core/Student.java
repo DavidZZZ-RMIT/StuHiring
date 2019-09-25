@@ -23,7 +23,6 @@ public class Student extends User {
 		return super.toString()+"School:" + school + " Major:" + major + " Gender:" + gender + " GraduateYear:" + graduateYear + "\n"
 				+ "description:" + description + "\n" + "references:" + references + "\n" + "qualifications:"
 				+ qualifications + "\n" + "Availabilities:" + availabilities + "\n" + "Status:" + status + "\n";
-
 	}
 
 	public JSONObject toJson() {
