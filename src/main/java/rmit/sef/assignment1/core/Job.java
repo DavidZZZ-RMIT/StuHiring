@@ -1,6 +1,6 @@
 package rmit.sef.assignment1.core;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -15,16 +15,31 @@ public class Job implements Mappable {
 	private String title;
 	private String id = RandomStringUtils.randomAlphabetic(64);;
 	private String description;
-	private LocalDate dueDate;
-	private LocalDate publicDate;
+	private LocalDateTime dueDate;
+	private LocalDateTime publicDate;
 	private Availabilities availabilities;
 
-	public Job(String employer, String title, String description, LocalDate dueDate, LocalDate publicDate) {
+	public Job(String employer, String title, String description, LocalDateTime dueDate, LocalDateTime publicDate) {
 		this.employer = employer;
 		this.title = title;
 		this.description = description;
 		this.dueDate = dueDate;
 		this.publicDate = publicDate;
+	}
+
+	public Job(String employer, String title, String description, LocalDateTime dueDate, LocalDateTime publicDate,
+			Availabilities availabilities) {
+		super();
+		this.employer = employer;
+		this.title = title;
+		this.description = description;
+		this.dueDate = dueDate;
+		this.publicDate = publicDate;
+		this.availabilities = availabilities;
+	}
+	
+	public String toString() {
+		return "["+title+"]^"+employer+"("+description+"){"+availabilities+"}";
 	}
 
 	public String getTitle() {
@@ -43,19 +58,19 @@ public class Job implements Mappable {
 		this.description = description;
 	}
 
-	public LocalDate getDueDate() {
+	public LocalDateTime getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(LocalDate dueDate) {
+	public void setDueDate(LocalDateTime dueDate) {
 		this.dueDate = dueDate;
 	}
 
-	public LocalDate getPublicDate() {
+	public LocalDateTime getPublicDate() {
 		return publicDate;
 	}
 
-	public void setPublicDate(LocalDate publicDate) {
+	public void setPublicDate(LocalDateTime publicDate) {
 		this.publicDate = publicDate;
 	}
 
@@ -86,8 +101,8 @@ public class Job implements Mappable {
 		title = (String) document.get("title");
 		id = (String) document.get("id");
 		description = (String) document.get("description");
-		dueDate = LocalDate.parse((String) document.get("dueDate"), util.FORMATTER);
-		publicDate = LocalDate.parse((String) document.get("publicDate"), util.FORMATTER);
+		dueDate = LocalDateTime.parse((String) document.get("dueDate"), util.FORMATTER);
+		publicDate = LocalDateTime.parse((String) document.get("publicDate"), util.FORMATTER);
 		availabilities = Availabilities.fromCodeString((String) document.get("availabilities"));
 	}
 

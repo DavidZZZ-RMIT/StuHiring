@@ -10,6 +10,12 @@ public class Availabilities {
 		availabilities.put(Availability.Internship, false);
 		availabilities.put(Availability.PartTime, false);
 	}
+	
+	public Availabilities(boolean fulltime,boolean internship,boolean parttime) {
+		availabilities.put(Availability.FullTime, fulltime);
+		availabilities.put(Availability.Internship, internship);
+		availabilities.put(Availability.PartTime, parttime);
+	}
 
 	public String toCodeString() {
 		return (availabilities.get(Availability.FullTime) ? "1" : "0")

@@ -16,10 +16,15 @@ public class User implements Mappable {
 	private UserType userType;
 	private boolean isBlackListed = false;
 
+	public String toString() {
+		return "[" + userType + "][" + (isBlackListed ? "X" : "O") + "][" + userName + "/" + email + "/" + phone + "]("
+				+ firstName + " " + lastName + ")";
+	}
+
 	public User(String userName, String pwd, String email, String fristName, String lastName, UserType userType) {
 		super();
 		this.userName = userName;
-		this.pwd = pwd;
+		this.pwd = DigestUtils.md5Hex(pwd);
 		this.email = email;
 		this.lastName = lastName;
 		this.firstName = fristName;
@@ -73,6 +78,10 @@ public class User implements Mappable {
 		return pwd;
 	}
 
+	public boolean checkPwd(String pwd) {
+		return this.pwd.equals(DigestUtils.md5Hex(pwd));
+	}
+
 	public void setPwd(String pwd) {
 		this.pwd = DigestUtils.md5Hex(pwd);
 	}
@@ -104,6 +113,7 @@ public class User implements Mappable {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+
 	public boolean isBlackListed() {
 		return isBlackListed;
 	}

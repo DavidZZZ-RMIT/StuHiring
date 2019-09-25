@@ -1,5 +1,7 @@
 package rmit.sef.assignment1.collection;
 
+import java.util.List;
+
 import org.dizitart.no2.objects.ObjectRepository;
 import org.dizitart.no2.objects.filters.ObjectFilters;
 
@@ -38,6 +40,10 @@ public class EmployerCollection {
 
 	public void removeEmployer(Employer employer) {
 		repository.remove(employer);
+	}
+	
+	public List<Employer> getAllEmployers() {
+		return repository.find().toList();
 	}
 
 }

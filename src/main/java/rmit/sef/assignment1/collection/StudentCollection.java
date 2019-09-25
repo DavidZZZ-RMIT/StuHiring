@@ -5,6 +5,7 @@ import java.util.List;
 import org.dizitart.no2.objects.ObjectRepository;
 import org.dizitart.no2.objects.filters.ObjectFilters;
 
+import rmit.sef.assignment1.core.Employer;
 import rmit.sef.assignment1.core.Job;
 import rmit.sef.assignment1.core.Student;
 import rmit.sef.assignment1.db.DataKeeper;
@@ -50,5 +51,9 @@ public class StudentCollection {
 	public List<Student> findApplicants(String keywords) {
 		return repository.find(ObjectFilters.or(ObjectFilters.text("description", keywords),
 				ObjectFilters.text("school", keywords), ObjectFilters.text("major", keywords))).toList();
+	}
+	
+	public List<Student> getAllStudents() {
+		return repository.find().toList();
 	}
 }

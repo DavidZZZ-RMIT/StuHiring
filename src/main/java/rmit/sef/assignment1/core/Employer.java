@@ -9,6 +9,17 @@ public class Employer extends User {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Employer(String userName, String pwd, String email, String fristName, String lastName,
+			String companyName, String companyDescription) {
+		super(userName, pwd, email, fristName, lastName, UserType.Employer);
+		this.companyName = companyName;
+		this.companyDescription = companyDescription;
+	}
+	
+	public String toString() {
+		return super.toString()+" :: ["+companyName+"]:"+companyDescription;
+	}
+
 	public String getCompanyName() {
 		return companyName;
 	}

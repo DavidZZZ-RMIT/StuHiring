@@ -19,6 +19,13 @@ public class Student extends User {
 	private Availabilities availabilities;
 	private ApplicantStatus status;
 
+	public String toString() {
+		return super.toString()+"School:" + school + " Major:" + major + " Gender:" + gender + " GraduateYear:" + graduateYear + "\n"
+				+ "description:" + description + "\n" + "references:" + references + "\n" + "qualifications:"
+				+ qualifications + "\n" + "Availabilities:" + availabilities + "\n" + "Status:" + status + "\n";
+
+	}
+
 	public JSONObject toJson() {
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("school", this.school);
@@ -32,7 +39,7 @@ public class Student extends User {
 		jsonObj.put("status", this.availabilities);
 		return jsonObj;
 	}
-	
+
 	@Override
 	public Document write(NitriteMapper mapper) {
 		Document document = super.write(mapper);
@@ -46,12 +53,13 @@ public class Student extends User {
 		document.put("qualifications", qualifications);
 		document.put("licenses", licenses);
 		document.put("availabilities", availabilities.toCodeString());
-		document.put("status", status);
+		document.put("status", status.toString());
 		return document;
 	}
 
 	@Override
 	public void read(NitriteMapper mapper, Document document) {
+		super.read(mapper, document);
 		school = (String) document.get("school");
 		major = (String) document.get("major");
 		description = (String) document.get("description");
@@ -61,13 +69,23 @@ public class Student extends User {
 		licenses = (String) document.get("licenses");
 		availabilities = Availabilities.fromCodeString((String) document.get("availabilities"));
 		status = ApplicantStatus.fromString((String) document.get("status"));
-		gender = Gender.getGender((String) document.get("gender"));
 		graduateYear = (int) document.get("graduateYear");
 	}
 
 	public Student(String userName, String pwd, String email, String fristName, String lastName) {
 		super(userName, pwd, email, fristName, lastName, UserType.Student);
 		availabilities = new Availabilities();
+	}
+
+	public Student(String userName, String pwd, String email, String fristName, String lastName, String school,
+			String major, Gender gender, int graduateYear, Availabilities availabilities, ApplicantStatus status) {
+		super(userName, pwd, email, fristName, lastName, UserType.Student);
+		this.school = school;
+		this.major = major;
+		this.gender = gender;
+		this.graduateYear = graduateYear;
+		this.availabilities = availabilities;
+		this.status = status;
 	}
 
 	public String getReferences() {
@@ -157,9 +175,9 @@ public class Student extends User {
 	public void setStatus(ApplicantStatus status) {
 		this.status = status;
 	}
-	
+
 	public String getFullName() {
-		return this.getFirstName()+" "+this.getLastName();
+		return this.getFirstName() + " " + this.getLastName();
 	}
 
 }

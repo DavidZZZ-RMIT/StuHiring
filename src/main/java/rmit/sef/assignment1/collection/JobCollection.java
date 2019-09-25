@@ -6,6 +6,7 @@ import org.dizitart.no2.objects.ObjectRepository;
 import org.dizitart.no2.objects.filters.ObjectFilters;
 
 import net.sf.json.JSONObject;
+import rmit.sef.assignment1.core.Employer;
 import rmit.sef.assignment1.core.Job;
 import rmit.sef.assignment1.db.DataKeeper;
 
@@ -38,6 +39,10 @@ public class JobCollection {
 		return repository.find(
 				ObjectFilters.or(ObjectFilters.text("description", keywords), ObjectFilters.text("title", keywords)))
 				.toList();
+	}
+	
+	public List<Job> getAllJobs() {
+		return repository.find().toList();
 	}
 	
 }
