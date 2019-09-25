@@ -17,6 +17,10 @@ public class Student extends User {
 	private Availabilities availabilities;
 	private ApplicantStatus status;
 
+	public Student() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	@Override
 	public Document write(NitriteMapper mapper) {
 		Document document = super.write(mapper);

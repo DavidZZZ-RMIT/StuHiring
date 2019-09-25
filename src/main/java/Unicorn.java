@@ -91,7 +91,7 @@ public class Unicorn {
 			return new ModelAndView(model, "home"); // located in resources/templates directory
 		}, new JadeTemplateEngine());
 
-		post("/json","application/json", (request, response) -> {
+		get("/json","application/json", (request, response) -> {
 			
 			JSONObject reqJson = JSONObject.fromObject(request.body());
 			System.out.print(reqJson);

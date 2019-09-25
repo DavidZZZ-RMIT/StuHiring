@@ -25,6 +25,10 @@ public class User implements Mappable {
 		this.firstName = fristName;
 		this.userType = userType;
 	}
+	
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public Document write(NitriteMapper mapper) {
