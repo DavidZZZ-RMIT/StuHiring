@@ -127,7 +127,6 @@ public class Unicorn {
 		}, new JadeTemplateEngine());
 
 		post("/json", "application/json", (request, response) -> {
-
 			JSONObject reqJson = JSONObject.fromObject(request.body());
 			System.out.print(reqJson);
 
