@@ -15,6 +15,7 @@ public class Student extends User {
 	private String qualifications;
 	private String licenses;
 	private Availabilities availabilities;
+	private ApplicantStatus status;
 
 	@Override
 	public Document write(NitriteMapper mapper) {
@@ -29,6 +30,7 @@ public class Student extends User {
 		document.put("qualifications", qualifications);
 		document.put("licenses", licenses);
 		document.put("availabilities", availabilities);
+		document.put("status", status);
 		return document;
 	}
 
@@ -42,6 +44,7 @@ public class Student extends User {
 		qualifications = (String) document.get("qualifications");
 		licenses = (String) document.get("licenses");
 		availabilities = Availabilities.fromString((String) document.get("availabilities"));
+		status = ApplicantStatus.fromString((String) document.get("status"));
 		gender = Gender.getGender((String) document.get("gender"));
 		graduateYear = (int) document.get("graduateYear");
 	}
@@ -129,5 +132,13 @@ public class Student extends User {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public ApplicantStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ApplicantStatus status) {
+		this.status = status;
 	}
 }
