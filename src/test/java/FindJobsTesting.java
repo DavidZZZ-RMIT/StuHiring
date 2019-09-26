@@ -21,7 +21,6 @@ import rmit.sef.assignment1.core.Student;
 
 public class FindJobsTesting {
 
-    faker.name().lastName(), 
 	@Before
 	public void setUp() throws Exception {
 		StudentCollection stuContrl = new StudentCollection();
