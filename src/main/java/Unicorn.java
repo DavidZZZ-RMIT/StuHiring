@@ -55,6 +55,14 @@ public class Unicorn {
 		return mEmployerContrl.getEmployer(email).checkPwd(pwd);
 	}
 
+	private boolean isStuffExist(String email) {
+		return mStudentContrl.isStudentExist(email);
+	}
+
+	private boolean loginAsStuff(String email, String pwd) {
+		return mStudentContrl.getStudent(email).checkPwd(pwd);
+	}
+	
 	private boolean creatStuff() {
 		return false;
 	}
@@ -208,6 +216,38 @@ public class Unicorn {
 				} else {
 					responseJson.put("result", "failed");
 					responseJson.put("msg", "employer account is not exist");
+				}
+			} else {
+				responseJson.put("result", "failed");
+				responseJson.put("msg", "missing email or password");
+			}
+
+			return responseJson.toString();
+		});
+		
+		post("/loginAsStuff", "application/json", (request, response) -> {
+			response.type("application/json");
+
+			JSONObject reqJson = JSONObject.fromObject(request.body());
+			JSONObject responseJson = new JSONObject();
+
+			if (reqJson.has("email") && reqJson.has("pwd")) {
+				if (Unicorn.getInstance().isStuffExist((String) reqJson.get("email"))) {
+					if (Unicorn.getInstance().loginAsStuff((String) reqJson.get("email"),
+							(String) reqJson.get("pwd"))) {
+						request.session(true);
+						responseJson.put("result", "succes");
+						responseJson.put("msg", "weclome");
+						responseJson.put("session", request.session().id());
+						request.session().attribute("User", (String) reqJson.get("email"));
+						request.session().attribute("UserType", UserType.Stuff);
+					} else {
+						responseJson.put("result", "failed");
+						responseJson.put("msg", "password incorrect");
+					}
+				} else {
+					responseJson.put("result", "failed");
+					responseJson.put("msg", "stuff account is not exist");
 				}
 			} else {
 				responseJson.put("result", "failed");
