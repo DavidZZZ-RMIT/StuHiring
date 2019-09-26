@@ -16,6 +16,34 @@ public class Comment implements Mappable {
 	private String author;
 	private String content;
 	
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public String getJobApplicationId() {
+		return jobApplicationId;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+	
 	public Comment(String jobApplicationId, String parentId, String author, String content) {
 		this.jobApplicationId = jobApplicationId;
 		this.parentId = parentId;

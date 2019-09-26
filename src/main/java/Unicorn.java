@@ -55,6 +55,18 @@ public class Unicorn {
 		return mEmployerContrl.getEmployer(email).checkPwd(pwd);
 	}
 
+	private boolean applyJob(String studentEmail, String JobId, String emp) {
+		Student s = mStudentContrl.getStudent(studentEmail);
+		Job job = mJobContrl.getJob(JobId);
+
+		if (job.checkAvailabilities(s.getAvailabilities())) {
+			return false;
+		} else {
+			JobApplication ja = new JobApplication(studentEmail, JobId, emp);
+			return mJobApplicationContrl.add(ja);
+		}
+	}
+
 	private boolean isStuffExist(String email) {
 		return mStudentContrl.isStudentExist(email);
 	}
@@ -62,7 +74,14 @@ public class Unicorn {
 	private boolean loginAsStuff(String email, String pwd) {
 		return mStudentContrl.getStudent(email).checkPwd(pwd);
 	}
-	
+
+	private void postCommentOnApplication(String email, String appId, String content, String parentId) {
+		List<JobApplication> lsja = mJobApplicationContrl.getJobApplicationsByApplicant(email);
+
+		Comment cmt = new Comment(appId, parentId, email, content);
+
+	}
+
 	private boolean creatStuff() {
 		return false;
 	}
@@ -129,6 +148,20 @@ public class Unicorn {
 			jsonObj.put(j.getFullName(), j.toJson());
 		}
 		return jsonObj;
+	}
+
+	private static JSONObject convertJobApplicationList(List<JobApplication> list) {
+		JSONObject jsonObj = new JSONObject();
+		Iterator<JobApplication> i = list.iterator();
+		while (i.hasNext()) {
+			JobApplication j = i.next();
+			jsonObj.put(j.getId(), j.toJson());
+		}
+		return jsonObj;
+	}
+
+	private List<JobApplication> findJobApplications(String email) {
+		return mJobApplicationContrl.getJobApplicationsByApplicant(email);
 	}
 
 	private List<Job> findJobs(String keywords) {
@@ -224,7 +257,7 @@ public class Unicorn {
 
 			return responseJson.toString();
 		});
-		
+
 		post("/loginAsStuff", "application/json", (request, response) -> {
 			response.type("application/json");
 
@@ -304,6 +337,51 @@ public class Unicorn {
 			response.type("application/json");
 			return convertStudentList(Unicorn.getInstance()
 					.findApplicants((String) JSONObject.fromObject(request.body()).get("keywords"))).toString();
+		});
+
+		post("/applyJob", "application/json", (request, response) -> {
+			JSONObject json = JSONObject.fromObject(request.body());
+			JSONObject responseJson = new JSONObject();
+
+			request.session(true);
+			response.type("application/json");
+
+			if (json.has("email") && json.has("jobid") && json.has("employer")) {
+				if (Unicorn.getInstance().applyJob((String) json.get("email"), (String) json.get("jobid"),
+						(String) json.get("employer"))) {
+					responseJson.put("result", "success");
+				} else {
+					responseJson.put("result", "failed");
+					responseJson.put("msg", "job not suit");
+				}
+			}
+			return responseJson.toString();
+		});
+
+		post("/getApplications", "application/json", (request, response) -> {
+			JSONObject json = JSONObject.fromObject(request.body());
+
+			request.session(true);
+			response.type("application/json");
+
+			if (json.has("email")) {
+				return convertJobApplicationList(Unicorn.getInstance().findJobApplications((String) json.get("email")))
+						.toString();
+			}
+			return "{}";
+		});
+
+		post("/postCommentOnApplication", "application/json", (request, response) -> {
+			JSONObject json = JSONObject.fromObject(request.body());
+
+			request.session(true);
+			response.type("application/json");
+
+			if (json.has("email") && json.has("applicationId") && json.has("content")) {
+				return convertJobApplicationList(Unicorn.getInstance().findJobApplications((String) json.get("email")))
+						.toString();
+			}
+			return "{}";
 		});
 	}
 }

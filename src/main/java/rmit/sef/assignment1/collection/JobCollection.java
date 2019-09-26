@@ -26,6 +26,10 @@ public class JobCollection {
 	public boolean isExist(Job jb) {
 		return repository.find(ObjectFilters.eq("id", jb.getId())).size() > 0;
 	}
+	
+	public Job getJob(String id) {
+		return repository.find(ObjectFilters.eq("id", id)).firstOrDefault();
+	}
 
 	public void update(Job jb) {
 		repository.update(jb);

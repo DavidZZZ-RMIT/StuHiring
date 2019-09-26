@@ -10,8 +10,8 @@ public class Availabilities {
 		availabilities.put(Availability.Internship, false);
 		availabilities.put(Availability.PartTime, false);
 	}
-	
-	public Availabilities(boolean fulltime,boolean internship,boolean parttime) {
+
+	public Availabilities(boolean fulltime, boolean internship, boolean parttime) {
 		availabilities.put(Availability.FullTime, fulltime);
 		availabilities.put(Availability.Internship, internship);
 		availabilities.put(Availability.PartTime, parttime);
@@ -22,7 +22,7 @@ public class Availabilities {
 				+ (availabilities.get(Availability.Internship) ? "1" : "0")
 				+ (availabilities.get(Availability.PartTime) ? "1" : "0");
 	}
-	
+
 	public String toString() {
 		return (availabilities.get(Availability.FullTime) ? "FullTime;" : "")
 				+ (availabilities.get(Availability.Internship) ? "Internship;" : "")
@@ -31,6 +31,10 @@ public class Availabilities {
 
 	public void setAvailability(Availability a, boolean b) {
 		availabilities.put(a, b);
+	}
+
+	public boolean getAvailability(Availability a) {
+		return availabilities.get(a);
 	}
 
 	public static Availabilities fromCodeString(String str) {
@@ -42,5 +46,11 @@ public class Availabilities {
 		if (str.charAt(2) == '1')
 			a.setAvailability(Availability.PartTime, true);
 		return a;
+	}
+
+	public boolean isSuit(Availabilities avs) {
+		return this.getAvailability(Availability.FullTime) == avs.getAvailability(Availability.FullTime)
+				|| this.getAvailability(Availability.Internship) == avs.getAvailability(Availability.Internship)
+				|| this.getAvailability(Availability.PartTime) == avs.getAvailability(Availability.PartTime);
 	}
 }

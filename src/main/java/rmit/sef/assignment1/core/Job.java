@@ -81,6 +81,10 @@ public class Job implements Mappable {
 	public String getId() {
 		return id;
 	}
+	
+	public boolean checkAvailabilities(Availabilities avs) {
+		return this.availabilities.isSuit(avs);
+	}
 
 	@Override
 	public Document write(NitriteMapper mapper) {
