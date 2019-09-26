@@ -14,7 +14,7 @@ import rmit.sef.assignment1.core.*;
 
 public class DemoDataImporter {
 
-	private static int getRandomNumberInRange(int min, int max) {
+	public static int getRandomNumberInRange(int min, int max) {
 
 		if (min >= max) {
 			throw new IllegalArgumentException("max must be greater than min");
@@ -23,7 +23,7 @@ public class DemoDataImporter {
 		Random r = new Random();
 		return r.nextInt((max - min) + 1) + min;
 	}
-	private static LocalDateTime getRandomDate(int rangeDay) {
+	public static LocalDateTime getRandomDate(int rangeDay) {
 		LocalDateTime now = LocalDateTime.now();
 		int day = 60 * 60 * 24;
 		return now.plusSeconds((long) RandomData.randomInteger(0, rangeDay * day));
