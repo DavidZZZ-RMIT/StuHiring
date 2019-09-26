@@ -21,73 +21,61 @@ import rmit.sef.assignment1.core.Student;
 
 public class FindJobsTesting {
 
- @Before
- public void setUp() throws Exception {
-  StudentCollection stuContrl = new StudentCollection();
-  EmployerCollection empContrl = new EmployerCollection();
-  JobCollection jobContrl = new JobCollection();
-  
-  Faker faker = new Faker();
-  Random random = new Random();
-  
-  stuContrl.addStudent(new Student(faker.name().username(), 
-    "123456", 
-    faker.name().username() + "@gmail.com",
-    faker.name().firstName(), 
     faker.name().lastName(), 
-    faker.educator().university(),
-    faker.educator().course(), 
-    (random.nextBoolean() ? Gender.Female : Gender.Male),
-    DemoDataImporter.getRandomNumberInRange(1990, 2022),
-    new Availabilities(random.nextBoolean(), random.nextBoolean(), random.nextBoolean()),
-    ApplicantStatus.Available));
-  
-  
-  empContrl.addEmployer(new Employer(faker.name().username(), 
-    "123456", 
-    faker.name().username() + "@gmail.com",
-    faker.name().firstName(), 
-    faker.name().lastName(), 
-    faker.company().name(),
-    faker.company().profession())
-    );
-  
-  jobContrl.add(new Job("",
-    faker.job().title(),
-    faker.job().position(),
-    DemoDataImporter.getRandomDate(DemoDataImporter.getRandomNumberInRange(0, 30)),
-    DemoDataImporter.getRandomDate(DemoDataImporter.getRandomNumberInRange(30, 90)),
-    new Availabilities(random.nextBoolean(), random.nextBoolean(), random.nextBoolean())
-    ));
- }
+	@Before
+	public void setUp() throws Exception {
+		StudentCollection stuContrl = new StudentCollection();
+		EmployerCollection empContrl = new EmployerCollection();
+		JobCollection jobContrl = new JobCollection();
 
- @Test
- public void findJobsWithoutLogin() {
-  JSONObject json = new JSONObject();
-  
-  json.put("keywords", "Java developer");
-  JSONObject result = WebTestHelper.request("http://localhost:4567/findJobs", json);
-  
-  Iterator<String> it = result.keys();
-  while(it.hasNext()) {
-   String title = it.next();
-   assertTrue(title.contains("Java developer") || ((String)((JSONObject)result.get(title)).get("description")).contains("Java developer"));
-  }
- }
- 
- @Test
- public void findJobsAfterLoginAsStudent() {
-  fail("Not yet implemented");
- }
- 
- @Test
- public void findSpecialJobsAfterLoginAsStudent() {
-  fail("Not yet implemented");
- }
- 
- @Test
- public void findJobsAfterLoginAsEmployer() {
-  fail("Not yet implemented");
- }
+		Faker faker = new Faker();
+		Random random = new Random();
+
+		stuContrl.addStudent(new Student(faker.name().username(), "123456", faker.name().username() + "@gmail.com",
+				faker.name().firstName(), faker.name().lastName(), faker.educator().university(),
+				faker.educator().course(), (random.nextBoolean() ? Gender.Female : Gender.Male),
+				DemoDataImporter.getRandomNumberInRange(1990, 2022),
+				new Availabilities(random.nextBoolean(), random.nextBoolean(), random.nextBoolean()),
+				ApplicantStatus.Available));
+
+		empContrl.addEmployer(new Employer(faker.name().username(), "123456", faker.name().username() + "@gmail.com",
+				faker.name().firstName(), faker.name().lastName(), faker.company().name(),
+				faker.company().profession()));
+
+		jobContrl.add(new Job("", faker.job().title(), faker.job().position(),
+				DemoDataImporter.getRandomDate(DemoDataImporter.getRandomNumberInRange(0, 30)),
+				DemoDataImporter.getRandomDate(DemoDataImporter.getRandomNumberInRange(30, 90)),
+				new Availabilities(random.nextBoolean(), random.nextBoolean(), random.nextBoolean())));
+	}
+
+	@Test
+	public void findJobsWithoutLogin() {
+		JSONObject json = new JSONObject();
+
+		json.put("keywords", "Java developer");
+		JSONObject result = WebTestHelper.request("http://localhost:4567/findJobs", json);
+
+		Iterator<String> it = result.keys();
+		while (it.hasNext()) {
+			String title = it.next();
+			assertTrue(title.contains("Java developer")
+					|| ((String) ((JSONObject) result.get(title)).get("description")).contains("Java developer"));
+		}
+	}
+
+	@Test
+	public void findJobsAfterLoginAsStudent() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void findSpecialJobsAfterLoginAsStudent() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void findJobsAfterLoginAsEmployer() {
+		fail("Not yet implemented");
+	}
 
 }
