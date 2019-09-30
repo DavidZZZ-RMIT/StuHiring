@@ -61,6 +61,7 @@ public class Student extends User {
 		super.read(mapper, document);
 		school = (String) document.get("school");
 		major = (String) document.get("major");
+		gender = (Gender) document.get("gender");
 		description = (String) document.get("description");
 		employmentRecords = (String) document.get("employmentRecords");
 		references = (String) document.get("references");
