@@ -12,7 +12,7 @@ public enum Gender {
 		return title;
 	}
 
-	public static Gender getGender(String type) {
+	public static Gender fromString(String type) {
 		if (type.equals("Male"))
 			return Male;
 		if (type.equals("Female"))
