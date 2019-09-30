@@ -56,4 +56,8 @@ public class StudentCollection {
 	public List<Student> getAllStudents() {
 		return repository.find().toList();
 	}
+	
+	public void removeAll() {
+		repository.remove(ObjectFilters.ALL);
+	}
 }

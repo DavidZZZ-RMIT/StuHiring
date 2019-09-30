@@ -35,4 +35,8 @@ public class CommentCollection {
 		return repository.find(ObjectFilters.and(ObjectFilters.eq("jobApplicationId", jobApplicationId),
 				ObjectFilters.eq("author", author))).toList();
 	}
+	
+	public void removeAll() {
+		repository.remove(ObjectFilters.ALL);
+	}
 }

@@ -33,4 +33,8 @@ public class JobCategoryCollection {
 	public List<JobCategory> all() {
 		return repository.find().toList();
 	}
+	
+	public void removeAll() {
+		repository.remove(ObjectFilters.ALL);
+	}
 }

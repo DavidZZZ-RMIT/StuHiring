@@ -45,5 +45,9 @@ public class EmployerCollection {
 	public List<Employer> getAllEmployers() {
 		return repository.find().toList();
 	}
+	
+	public void removeAll() {
+		repository.remove(ObjectFilters.ALL);
+	}
 
 }

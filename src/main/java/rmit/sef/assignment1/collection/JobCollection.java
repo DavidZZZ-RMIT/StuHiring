@@ -49,4 +49,8 @@ public class JobCollection {
 		return repository.find().toList();
 	}
 	
+	public void removeAll() {
+		repository.remove(ObjectFilters.ALL);
+	}
+	
 }

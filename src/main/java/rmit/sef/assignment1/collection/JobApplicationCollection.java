@@ -52,4 +52,8 @@ public class JobApplicationCollection {
 		return repository.find(ObjectFilters.and(ObjectFilters.eq("jobID", jobID), ObjectFilters.eq("status", status)))
 				.toList();
 	}
+	
+	public void removeAll() {
+		repository.remove(ObjectFilters.ALL);
+	}
 }
