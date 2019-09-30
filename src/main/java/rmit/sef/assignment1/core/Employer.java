@@ -1,5 +1,8 @@
 package rmit.sef.assignment1.core;
 
+import org.dizitart.no2.Document;
+import org.dizitart.no2.mapper.NitriteMapper;
+
 public class Employer extends User {
 	private String companyName;
 	private String companyDescription;
@@ -9,10 +12,20 @@ public class Employer extends User {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Employer() {
-		// TODO Auto-generated constructor stub
+	@Override
+	public Document write(NitriteMapper mapper) {
+		Document document = super.write(mapper);
+		document.put("companyName", companyName);
+		document.put("companyDescription", companyDescription);
+		return document;
 	}
 
+	@Override
+	public void read(NitriteMapper mapper, Document document) {
+		super.read(mapper, document);
+		companyName = (String) document.get("companyName");
+		companyDescription = (String) document.get("companyDescription");
+	}
 	public Employer(String userName, String pwd, String email, String fristName, String lastName,
 			String companyName, String companyDescription) {
 		super(userName, pwd, email, fristName, lastName, UserType.Employer);
