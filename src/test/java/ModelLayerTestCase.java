@@ -14,12 +14,16 @@ public class ModelLayerTestCase {
 	StudentCollection StuContrl = new StudentCollection();
 	EmployerCollection empContrl = new EmployerCollection();
 	JobCollection jobContrl = new JobCollection();
+	JobApplicationCollection jaContrl = new JobApplicationCollection();
+	CommentCollection cmtContrl = new CommentCollection();
 
 	@Before
 	public void setUp() throws Exception {
 		StuContrl.removeAll();
 		empContrl.removeAll();
 		jobContrl.removeAll();
+		jaContrl.removeAll();
+		cmtContrl.removeAll();
 	}
 
 	@Test
@@ -109,6 +113,38 @@ public class ModelLayerTestCase {
 		assertTrue(j.getDueDate().equals(j2.getDueDate()));
 		assertTrue(j.getEmployer().equals(j2.getEmployer()));
 		assertTrue(j.getTitle().equals(j2.getTitle()));
+		assertTrue(j.getDueDate().equals(j2.getDueDate()));
+		assertTrue(j.getPublicDate().equals(j2.getPublicDate()));
+	
+	}
+	
+	@Test
+	public void testPostJobApplication() {
+		Job j = new Job(
+				"rmitconnect@gmail.com",
+				"Java developer", 
+				"We need a java developer to help us to develope a automatical app",
+				LocalDateTime.of(2019,Month.SEPTEMBER,30,12,1),
+				LocalDateTime.of(2019,Month.DECEMBER,30,12,1),
+				new Availabilities(true, false, false));// Fulltime, internship, parttime
+		
+		jobContrl.add(j);
+		
+		JobApplication ja = new JobApplication(
+				"david@gmail.com",
+				j.getId(),
+				"rmitconnect@gmail.com"
+				);
+		
+		jaContrl.add(ja);
+		
+		JobApplication ja2 = jaContrl.getJobApplicationsByJobID(ja.getJobID()).get(0);
+		
+		assertTrue(ja.getApplicant().equals(ja2.getApplicant()));
+		assertTrue(ja.getEmployer().equals(ja2.getEmployer()));
+		assertTrue(ja.getJobID().equals(ja2.getJobID()));
+		assertTrue(ja.getStatus().equals(ja2.getStatus()));
+		assertTrue(ja.getStatus().equals(JobApplicationStatus.Requesting));
 	
 	}
 }
