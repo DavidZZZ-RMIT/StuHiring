@@ -354,6 +354,9 @@ public class Unicorn {
 					responseJson.put("result", "failed");
 					responseJson.put("msg", "job not suit");
 				}
+			}else {
+				responseJson.put("result", "failed");
+				responseJson.put("msg", "parameters missing");
 			}
 			return responseJson.toString();
 		});

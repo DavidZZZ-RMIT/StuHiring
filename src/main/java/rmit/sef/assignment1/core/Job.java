@@ -113,6 +113,8 @@ public class Job implements Mappable {
 	public JSONObject toJson() {
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("title", this.title);
+		jsonObj.put("jobId", this.id);
+		jsonObj.put("employer", this.employer);
 		jsonObj.put("description", this.description);
 		jsonObj.put("dueDate", this.dueDate);
 		jsonObj.put("availabilities", this.availabilities);
