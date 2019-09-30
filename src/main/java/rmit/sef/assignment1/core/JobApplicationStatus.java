@@ -14,7 +14,7 @@ public enum JobApplicationStatus {
 		return title;
 	}
 
-	public static JobApplicationStatus getStatu(String type) {
+	public static JobApplicationStatus getStatus(String type) {
 		if (type.equals("Requesting"))
 			return Requesting;
 		if (type.equals("UnderReview"))

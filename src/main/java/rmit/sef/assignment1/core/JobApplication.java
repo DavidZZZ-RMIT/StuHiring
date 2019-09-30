@@ -29,6 +29,7 @@ public class JobApplication implements Mappable {
 	public JobApplication(String applicant, String jobID, String employer) {
 		this.applicant = applicant;
 		this.jobID = jobID;
+		this.employer = employer;
 		this.status = JobApplicationStatus.Requesting;
 	}
 
@@ -58,14 +59,22 @@ public class JobApplication implements Mappable {
 
 	@Override
 	public Document write(NitriteMapper mapper) {
-		// TODO Auto-generated method stub
-		return null;
+		Document document = new Document();
+		document.put("id", id);
+		document.put("applicant", applicant);
+		document.put("employer", employer);
+		document.put("jobID", jobID);
+		document.put("status", status);
+		return document;
 	}
 
 	@Override
 	public void read(NitriteMapper mapper, Document document) {
-		// TODO Auto-generated method stub
-
+		id = (String) document.get("id");
+		applicant = (String) document.get("applicant");
+		employer = (String) document.get("employer");
+		jobID = (String) document.get("jobID");
+		status = (JobApplicationStatus) document.get("status");
 	}
 
 }
