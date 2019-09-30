@@ -43,5 +43,8 @@ public class StuffCollection {
 	public void removestuff(Stuff user) {
 		repository.remove(user);
 	}
+	public void removeAll() {
+		repository.remove(ObjectFilters.ALL);
+	}
 
 }
