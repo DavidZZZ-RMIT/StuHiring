@@ -1,16 +1,21 @@
 package rmit.sef.assignment1.core;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.dizitart.no2.Document;
 import org.dizitart.no2.mapper.Mappable;
 import org.dizitart.no2.mapper.NitriteMapper;
+import org.dizitart.no2.objects.Id;
+
+import net.sf.json.JSONObject;
 
 public class User implements Mappable {
 
+	@Id
+	private String email;
 	private String userName;
 	private String pwd;
 	private String phone;
-	private String email;
 	private String lastName;
 	private String firstName;
 	private UserType userType;
@@ -19,6 +24,18 @@ public class User implements Mappable {
 	public String toString() {
 		return "[" + userType + "][" + (isBlackListed ? "X" : "O") + "][" + userName + "/" + email + "/" + phone + "]("
 				+ firstName + " " + lastName + ")";
+	}
+	
+	public JSONObject toJson() {
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("email", this.email);
+		jsonObj.put("userName", this.userName);
+		jsonObj.put("phone", this.phone);
+		jsonObj.put("lastName", this.lastName);
+		jsonObj.put("firstName", this.firstName);
+		jsonObj.put("userType", this.userType);
+		jsonObj.put("isBlackListed", this.isBlackListed);
+		return jsonObj;
 	}
 
 	public User(String userName, String pwd, String email, String fristName, String lastName, UserType userType) {

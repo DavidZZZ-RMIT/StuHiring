@@ -35,7 +35,7 @@ public class EmployerCollection {
 	}
 
 	public void updateEmployer(Employer employer) {
-		repository.update(employer);
+		repository.update(ObjectFilters.eq("email", employer.getEmail()),employer);
 	}
 
 	public void removeEmployer(Employer employer) {

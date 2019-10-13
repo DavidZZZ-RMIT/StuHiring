@@ -2,6 +2,9 @@ package rmit.sef.assignment1.core;
 
 import org.dizitart.no2.Document;
 import org.dizitart.no2.mapper.NitriteMapper;
+import org.dizitart.no2.objects.Id;
+
+import net.sf.json.JSONObject;
 
 public class Employer extends User {
 	private String companyName;
@@ -31,6 +34,13 @@ public class Employer extends User {
 		super(userName, pwd, email, fristName, lastName, UserType.Employer);
 		this.companyName = companyName;
 		this.companyDescription = companyDescription;
+	}
+	
+	public JSONObject toJson() {
+		JSONObject jsonObj = super.toJson();
+		jsonObj.put("companyName", this.companyName);
+		jsonObj.put("companyDescription", this.companyDescription);
+		return jsonObj;
 	}
 	
 	public String toString() {

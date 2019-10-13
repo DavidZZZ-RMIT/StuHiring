@@ -7,13 +7,16 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.dizitart.no2.Document;
 import org.dizitart.no2.mapper.Mappable;
 import org.dizitart.no2.mapper.NitriteMapper;
+import org.dizitart.no2.objects.Id;
 
 import net.sf.json.JSONObject;
 
+
 public class Job implements Mappable {
+	@Id
+	private String id = RandomStringUtils.randomAlphabetic(64);
 	private String employer;
 	private String title;
-	private String id = RandomStringUtils.randomAlphabetic(64);;
 	private String description;
 	private LocalDateTime dueDate;
 	private LocalDateTime publicDate;
@@ -117,6 +120,7 @@ public class Job implements Mappable {
 		jsonObj.put("employer", this.employer);
 		jsonObj.put("description", this.description);
 		jsonObj.put("dueDate", this.dueDate);
+		jsonObj.put("publicDate", this.publicDate);
 		jsonObj.put("availabilities", this.availabilities);
 		return jsonObj;
 	}

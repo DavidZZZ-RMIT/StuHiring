@@ -25,6 +25,10 @@ public class JobApplicationCollection {
 	public boolean isExist(JobApplication ja) {
 		return repository.find(ObjectFilters.eq("id", ja.getId())).size() > 0;
 	}
+	
+	public boolean isApplied(String applicant, String jobId) {
+		return repository.find(ObjectFilters.and(ObjectFilters.eq("applicant", applicant), ObjectFilters.eq("jobID", jobId))).size() > 0;
+	}
 
 	public void update(JobApplication ja) {
 		repository.update(ja);
@@ -33,9 +37,17 @@ public class JobApplicationCollection {
 	public void remove(JobApplication ja) {
 		repository.remove(ja);
 	}
+	
+	public JobApplication getJobApplication(String id) {
+		return repository.find(ObjectFilters.eq("id", id)).firstOrDefault();
+	}
 
 	public List<JobApplication> getJobApplicationsByApplicant(String applicant) {
 		return repository.find(ObjectFilters.eq("applicant", applicant)).toList();
+	}
+	
+	public List<JobApplication> getJobApplicationsByEmployer(String employer) {
+		return repository.find(ObjectFilters.eq("employer", employer)).toList();
 	}
 
 	public List<JobApplication> getJobApplicationsByApplicant(String applicant, JobApplicationStatus status) {

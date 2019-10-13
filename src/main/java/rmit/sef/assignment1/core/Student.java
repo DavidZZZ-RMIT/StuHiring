@@ -1,5 +1,7 @@
 package rmit.sef.assignment1.core;
 
+import java.util.ArrayList;
+
 import org.dizitart.no2.Document;
 import org.dizitart.no2.mapper.NitriteMapper;
 
@@ -18,6 +20,7 @@ public class Student extends User {
 	private String licenses;
 	private Availabilities availabilities;
 	private ApplicantStatus status;
+	private ArrayList<String> CVList;
 
 	public String toString() {
 		return super.toString()+"School:" + school + " Major:" + major + " Gender:" + gender + " GraduateYear:" + graduateYear + "\n"
@@ -26,7 +29,7 @@ public class Student extends User {
 	}
 
 	public JSONObject toJson() {
-		JSONObject jsonObj = new JSONObject();
+		JSONObject jsonObj = super.toJson();
 		jsonObj.put("school", this.school);
 		jsonObj.put("major", this.major);
 		jsonObj.put("gender", this.gender);
@@ -36,6 +39,7 @@ public class Student extends User {
 		jsonObj.put("availabilities", this.availabilities);
 		jsonObj.put("description", this.description);
 		jsonObj.put("status", this.availabilities);
+		jsonObj.put("CVList", CVList);
 		return jsonObj;
 	}
 
@@ -53,6 +57,7 @@ public class Student extends User {
 		document.put("licenses", licenses);
 		document.put("availabilities", availabilities.toCodeString());
 		document.put("status", status.toString());
+		document.put("CVList", CVList);
 		return document;
 	}
 
@@ -67,6 +72,7 @@ public class Student extends User {
 		references = (String) document.get("references");
 		qualifications = (String) document.get("qualifications");
 		licenses = (String) document.get("licenses");
+		CVList = (ArrayList<String>) document.get("CVList");
 		availabilities = Availabilities.fromCodeString((String) document.get("availabilities"));
 		status = ApplicantStatus.fromString((String) document.get("status"));
 		graduateYear = (int) document.get("graduateYear");
@@ -86,6 +92,7 @@ public class Student extends User {
 		this.graduateYear = graduateYear;
 		this.availabilities = availabilities;
 		this.status = status;
+		this.CVList = new ArrayList<String>();
 	}
 
 	public String getReferences() {
@@ -178,6 +185,10 @@ public class Student extends User {
 
 	public String getFullName() {
 		return this.getFirstName() + " " + this.getLastName();
+	}
+	
+	public void addCV(String cvID) {
+		CVList.add(cvID);
 	}
 
 }

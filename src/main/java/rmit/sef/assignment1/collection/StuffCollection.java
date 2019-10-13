@@ -15,13 +15,17 @@ public class StuffCollection {
 	}
 
 	public boolean addstuff(Stuff stuff) {
-		if (isstuffExist(stuff))
+		if (isStuffExist(stuff))
 			return false;
 		return repository.insert(stuff).getAffectedCount() == 1;
 	}
 
-	public boolean isstuffExist(Stuff user) {
+	public boolean isStuffExist(Stuff user) {
 		return repository.find(ObjectFilters.eq("email", user.getEmail())).size() > 0;
+	}
+	
+	public boolean isStuffExist(String email) {
+		return repository.find(ObjectFilters.eq("email",email)).size() > 0;
 	}
 
 	public boolean isUserExist(String email) {

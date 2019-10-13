@@ -1,7 +1,7 @@
 package rmit.sef.assignment1.core;
 
 public enum JobApplicationStatus {
-	Requesting("Requesting"), UnderReview("UnderReview"), Rejected("Rejected"), Accepted("Accepted"),
+	Requesting("Requesting"), UnderReview("UnderReview"), Rejected("Rejected"), Accepted("Accepted"),Cancelled("Cancelled"),
 	Unknown("Unknown");
 
 	private String title;

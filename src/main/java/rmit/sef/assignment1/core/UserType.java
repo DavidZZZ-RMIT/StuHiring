@@ -22,4 +22,8 @@ public enum UserType {
 			return Employer;
 		return Unknown;
 	}
+	
+	public boolean equals(UserType t) {
+		return this.title.equals(t.toString());
+	}
 }
